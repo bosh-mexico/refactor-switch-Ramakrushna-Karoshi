@@ -19,9 +19,13 @@ class PaymentProcessor:
         if amount < 0:
             raise ValueError("Amount must be non-negative!")
 
-        if mode == PaymentMode.PAYPAL:
-            return f"Processing PayPal payment of ${amount:.2f}"
-        elif mode == PaymentMode.GOOGLEPAY:
-            return f"Processing GooglePay payment of ${amount:.2f}"
-        elif mode == PaymentMode.CREDITCARD:
-            return f"Processing Credit Card payment of ${amount:.2f}"
+        # Use match-case for switch-case style
+        match mode:
+            case PaymentMode.PAYPAL:
+                return f"Processing PayPal payment of ${amount:.2f}"
+            case PaymentMode.GOOGLEPAY:
+                return f"Processing GooglePay payment of ${amount:.2f}"
+            case PaymentMode.CREDITCARD:
+                return f"Processing Credit Card payment of ${amount:.2f}"
+            case _:
+                raise ValueError("Invalid payment mode selected!")
