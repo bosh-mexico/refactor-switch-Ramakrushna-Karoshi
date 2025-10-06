@@ -227,7 +227,7 @@ public class CheckoutDemo {
 
 ```
 
-### Gherkin - payment_processor.py
+gherkin
 
 Feature: Payment Processor
   As a system
@@ -253,4 +253,20 @@ Feature: Payment Processor
     Given the amount is 50.0
     When I checkout using an unknown mode
     Then the system should print "Invalid payment mode selected!"
+
+---
+
+## **Payment Processor Test Cases**
+
+| Test Case ID | Name                          | Precondition               | Input                          | Action          | Expected Output / Behavior                           | Notes                                                     |
+| ------------ | ----------------------------- | -------------------------- | ------------------------------ | --------------- | ---------------------------------------------------- | --------------------------------------------------------- |
+| TC01         | Checkout PayPal Payment       | PaymentProcessor available | PaymentMode.PAYPAL, 100.0      | Call `checkout` | Print: `"Processing PayPal payment of $100.00"`      | Tests PayPal flow                                         |
+| TC02         | Checkout GooglePay Payment    | PaymentProcessor available | PaymentMode.GOOGLEPAY, 150.50  | Call `checkout` | Print: `"Processing GooglePay payment of $150.50"`   | Tests GooglePay flow                                      |
+| TC03         | Checkout CreditCard Payment   | PaymentProcessor available | PaymentMode.CREDITCARD, 200.75 | Call `checkout` | Print: `"Processing Credit Card payment of $200.75"` | Tests CreditCard flow                                     |
+| TC04         | Checkout Unknown Payment Mode | PaymentProcessor available | PaymentMode.UNKNOWN, 50.0      | Call `checkout` | Print: `"Invalid payment mode selected!"`            | Tests unsupported mode                                    |
+| TC05         | Checkout Negative Amount      | PaymentProcessor available | PaymentMode.PAYPAL, -10.0      | Call `checkout` | Print: `"Processing PayPal payment of $-10.00"`      | Optional: Could extend to validation for negative amounts |
+| TC06         | Checkout Zero Amount          | PaymentProcessor available | PaymentMode.CREDITCARD, 0.0    | Call `checkout` | Print: `"Processing Credit Card payment of $0.00"`   | Edge case: zero payment                                   |
+
+---
+
 
