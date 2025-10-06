@@ -5,29 +5,28 @@ class TestPaymentProcessor(unittest.TestCase):
 
     def setUp(self):
         self.processor = PaymentProcessor()
-        self.amount = 150.75
 
     def test_paypal_payment(self):
-        result = self.processor.checkout(PaymentMode.PAYPAL, self.amount)
-        self.assertEqual(result, f"Processing PayPal payment of ${self.amount:.2f}")
+        result = self.processor.checkout(PaymentMode.PAYPAL, 100.0)
+        self.assertEqual(result, "Processing PayPal payment of $100.00")
 
     def test_googlepay_payment(self):
-        result = self.processor.checkout(PaymentMode.GOOGLEPAY, self.amount)
-        self.assertEqual(result, f"Processing GooglePay payment of ${self.amount:.2f}")
+        result = self.processor.checkout(PaymentMode.GOOGLEPAY, 200.5)
+        self.assertEqual(result, "Processing GooglePay payment of $200.50")
 
     def test_creditcard_payment(self):
-        result = self.processor.checkout(PaymentMode.CREDITCARD, self.amount)
-        self.assertEqual(result, f"Processing Credit Card payment of ${self.amount:.2f}")
+        result = self.processor.checkout(PaymentMode.CREDITCARD, 300)
+        self.assertEqual(result, "Processing Credit Card payment of $300.00")
 
-    def test_invalid_payment_mode(self):
-        with self.assertRaises(ValueError) as context:
-            self.processor.checkout("INVALID", self.amount)
-        self.assertEqual(str(context.exception), "Invalid payment mode selected!")
-
-    def test_negative_amount(self):
+    def test_negative_amount_raises_exception(self):
         with self.assertRaises(ValueError) as context:
             self.processor.checkout(PaymentMode.PAYPAL, -10)
         self.assertEqual(str(context.exception), "Amount must be non-negative!")
+
+    def test_invalid_mode_raises_exception(self):
+        with self.assertRaises(ValueError) as context:
+            self.processor.checkout("INVALID_MODE", 100)
+        self.assertEqual(str(context.exception), "Invalid payment mode selected!")
 
 if __name__ == "__main__":
     unittest.main()
