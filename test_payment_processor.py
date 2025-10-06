@@ -6,6 +6,7 @@ class TestPaymentProcessor(unittest.TestCase):
     def setUp(self):
         self.processor = PaymentProcessor()
 
+    # Valid payment modes
     def test_paypal_payment(self):
         result = self.processor.checkout(PaymentMode.PAYPAL, 100.0)
         self.assertEqual(result, "Processing PayPal payment of $100.00")
@@ -17,6 +18,11 @@ class TestPaymentProcessor(unittest.TestCase):
     def test_creditcard_payment(self):
         result = self.processor.checkout(PaymentMode.CREDITCARD, 300)
         self.assertEqual(result, "Processing Credit Card payment of $300.00")
+
+    # Edge cases
+    def test_zero_amount(self):
+        result = self.processor.checkout(PaymentMode.PAYPAL, 0)
+        self.assertEqual(result, "Processing PayPal payment of $0.00")
 
     def test_negative_amount_raises_exception(self):
         with self.assertRaises(ValueError) as context:
