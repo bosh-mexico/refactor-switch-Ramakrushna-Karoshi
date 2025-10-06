@@ -1,6 +1,6 @@
 from payment_processor import PaymentProcessor, PaymentMode
 
-def main():
+def run_demo():
     processor = PaymentProcessor()
     amount = 150.75
 
@@ -22,4 +22,4 @@ def main():
         print(f"Error: {e}")
 
 if __name__ == "__main__":
-    main()
+    run_demo()
