@@ -228,33 +228,32 @@ public class CheckoutDemo {
 ```
 
 
-Feature: Payment processing
-  The system must process payments using multiple payment modes and handle errors
+Feature: Payment Processing
 
   Scenario: PayPal payment
-    Given a payment amount of 100.00
-    When I checkout using PayPal
-    Then the result should be "Processing PayPal payment of $100.00"
+    Given a payment amount of 100.0
+    When I select PayPal as the payment mode
+    Then the system should return "Processing PayPal payment of $100.00"
 
   Scenario: GooglePay payment
-    Given a payment amount of 200.50
-    When I checkout using GooglePay
-    Then the result should be "Processing GooglePay payment of $200.50"
+    Given a payment amount of 200.5
+    When I select GooglePay as the payment mode
+    Then the system should return "Processing GooglePay payment of $200.50"
 
   Scenario: CreditCard payment
     Given a payment amount of 300
-    When I checkout using CreditCard
-    Then the result should be "Processing Credit Card payment of $300.00"
+    When I select CreditCard as the payment mode
+    Then the system should return "Processing Credit Card payment of $300.00"
 
   Scenario: Negative payment amount
-    Given a payment amount of -10
-    When I checkout using PayPal
-    Then an error should be raised with message "Amount must be non-negative!"
+    Given a payment amount of -50
+    When I select PayPal as the payment mode
+    Then the system should raise an error "Amount must be non-negative!"
 
   Scenario: Invalid payment mode
-    Given a payment amount of 100
-    When I checkout using an invalid mode
-    Then an error should be raised with message "Invalid payment mode selected!"
+    Given a payment amount of 150.0
+    When I select an invalid payment mode
+    Then the system should raise an error "Invalid payment mode selected!"
 
 
 
