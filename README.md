@@ -227,3 +227,30 @@ public class CheckoutDemo {
 
 ```
 
+### Gherkin - payment_processor.py
+
+Feature: Payment Processor
+  As a system
+  I want to process payments via multiple payment modes
+  So that the correct confirmation messages are displayed
+
+  Scenario: Process PayPal payment
+    Given the amount is 100.0
+    When I checkout using PayPal
+    Then the system should print "Processing PayPal payment of $100.00"
+
+  Scenario: Process GooglePay payment
+    Given the amount is 150.50
+    When I checkout using GooglePay
+    Then the system should print "Processing GooglePay payment of $150.50"
+
+  Scenario: Process Credit Card payment
+    Given the amount is 200.75
+    When I checkout using CreditCard
+    Then the system should print "Processing Credit Card payment of $200.75"
+
+  Scenario: Process unknown payment mode
+    Given the amount is 50.0
+    When I checkout using an unknown mode
+    Then the system should print "Invalid payment mode selected!"
+
