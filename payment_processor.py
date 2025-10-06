@@ -1,28 +1,35 @@
 from enum import Enum
 
-# Define Payment Modes
 class PaymentMode(Enum):
     PAYPAL = 1
     GOOGLEPAY = 2
     CREDITCARD = 3
-    UNKNOWN = 99
 
 class PaymentProcessor:
-    """Handles payment processing for different modes."""
+    """Handles payment processing for different payment modes."""
 
-    @staticmethod
-    def checkout(mode: PaymentMode, amount: float) -> None:
-        """Process a payment for the given mode and amount."""
-        match mode:
-            case PaymentMode.PAYPAL:
-                print(f"Processing PayPal payment of ${amount:.2f}")
-                # Placeholder for PayPal-specific logic
-            case PaymentMode.GOOGLEPAY:
-                print(f"Processing GooglePay payment of ${amount:.2f}")
-                # Placeholder for GooglePay-specific logic
-            case PaymentMode.CREDITCARD:
-                print(f"Processing Credit Card payment of ${amount:.2f}")
-                # Placeholder for Credit Card-specific logic
-            case _:
-                print("Invalid payment mode selected!")
+    def checkout(self, mode: PaymentMode, amount: float) -> str:
+        """
+        Process a payment for the given mode and amount.
 
+        Args:
+            mode (PaymentMode): The selected payment mode.
+            amount (float): The payment amount (must be >= 0).
+
+        Returns:
+            str: Confirmation message for the processed payment.
+
+        Raises:
+            ValueError: If amount < 0 or unknown payment mode.
+        """
+        if amount < 0:
+            raise ValueError("Amount must be non-negative")
+
+        if mode == PaymentMode.PAYPAL:
+            return f"Processing PayPal payment of ${amount:.2f}"
+        elif mode == PaymentMode.GOOGLEPAY:
+            return f"Processing GooglePay payment of ${amount:.2f}"
+        elif mode == PaymentMode.CREDITCARD:
+            return f"Processing Credit Card payment of ${amount:.2f}"
+        else:
+            raise ValueError("Invalid payment mode selected")
