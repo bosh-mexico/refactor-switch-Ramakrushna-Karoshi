@@ -227,33 +227,32 @@ public class CheckoutDemo {
 
 ```
 
-gherkin
 
 Feature: Payment Processing
 
-  Scenario: PayPal payment is processed
-    Given a payment amount of 100
+  Scenario: PayPal payment
+    Given a payment amount of 150.75
     When I checkout using PayPal
-    Then the confirmation message should be "Processing PayPal payment of $100.00"
+    Then I should see "Processing PayPal payment of $150.75"
 
-  Scenario: GooglePay payment is processed
-    Given a payment amount of 50.5
+  Scenario: GooglePay payment
+    Given a payment amount of 150.75
     When I checkout using GooglePay
-    Then the confirmation message should be "Processing GooglePay payment of $50.50"
+    Then I should see "Processing GooglePay payment of $150.75"
 
-  Scenario: Credit Card payment is processed
-    Given a payment amount of 200
+  Scenario: Credit Card payment
+    Given a payment amount of 150.75
     When I checkout using CreditCard
-    Then the confirmation message should be "Processing Credit Card payment of $200.00"
+    Then I should see "Processing Credit Card payment of $150.75"
 
-  Scenario: Negative payment amount raises exception
-    Given a payment amount of -10
-    When I checkout using PayPal
-    Then an error "Amount must be non-negative" should be raised
-
-  Scenario: Unknown payment mode raises exception
-    Given a payment amount of 50
+  Scenario: Invalid payment mode
+    Given a payment amount of 150.75
     When I checkout using an unsupported mode
-    Then an error "Invalid payment mode selected" should be raised
+    Then I should see an error "Invalid payment mode selected!"
+
+  Scenario: Negative payment amount
+    Given a payment amount of -50
+    When I checkout using PayPal
+    Then I should see an error "Amount must be non-negative!"
 
 
