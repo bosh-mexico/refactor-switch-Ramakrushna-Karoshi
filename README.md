@@ -229,44 +229,31 @@ public class CheckoutDemo {
 
 gherkin
 
-Feature: Payment Processor
-  As a system
-  I want to process payments via multiple payment modes
-  So that the correct confirmation messages are displayed
+Feature: Payment Processing
 
-  Scenario: Process PayPal payment
-    Given the amount is 100.0
+  Scenario: PayPal payment is processed
+    Given a payment amount of 100
     When I checkout using PayPal
-    Then the system should print "Processing PayPal payment of $100.00"
+    Then the confirmation message should be "Processing PayPal payment of $100.00"
 
-  Scenario: Process GooglePay payment
-    Given the amount is 150.50
+  Scenario: GooglePay payment is processed
+    Given a payment amount of 50.5
     When I checkout using GooglePay
-    Then the system should print "Processing GooglePay payment of $150.50"
+    Then the confirmation message should be "Processing GooglePay payment of $50.50"
 
-  Scenario: Process Credit Card payment
-    Given the amount is 200.75
+  Scenario: Credit Card payment is processed
+    Given a payment amount of 200
     When I checkout using CreditCard
-    Then the system should print "Processing Credit Card payment of $200.75"
+    Then the confirmation message should be "Processing Credit Card payment of $200.00"
 
-  Scenario: Process unknown payment mode
-    Given the amount is 50.0
-    When I checkout using an unknown mode
-    Then the system should print "Invalid payment mode selected!"
+  Scenario: Negative payment amount raises exception
+    Given a payment amount of -10
+    When I checkout using PayPal
+    Then an error "Amount must be non-negative" should be raised
 
----
-
-## **Payment Processor Test Cases**
-
-| Test Case ID | Name                          | Precondition               | Input                          | Action          | Expected Output / Behavior                           | Notes                                                     |
-| ------------ | ----------------------------- | -------------------------- | ------------------------------ | --------------- | ---------------------------------------------------- | --------------------------------------------------------- |
-| TC01         | Checkout PayPal Payment       | PaymentProcessor available | PaymentMode.PAYPAL, 100.0      | Call `checkout` | Print: `"Processing PayPal payment of $100.00"`      | Tests PayPal flow                                         |
-| TC02         | Checkout GooglePay Payment    | PaymentProcessor available | PaymentMode.GOOGLEPAY, 150.50  | Call `checkout` | Print: `"Processing GooglePay payment of $150.50"`   | Tests GooglePay flow                                      |
-| TC03         | Checkout CreditCard Payment   | PaymentProcessor available | PaymentMode.CREDITCARD, 200.75 | Call `checkout` | Print: `"Processing Credit Card payment of $200.75"` | Tests CreditCard flow                                     |
-| TC04         | Checkout Unknown Payment Mode | PaymentProcessor available | PaymentMode.UNKNOWN, 50.0      | Call `checkout` | Print: `"Invalid payment mode selected!"`            | Tests unsupported mode                                    |
-| TC05         | Checkout Negative Amount      | PaymentProcessor available | PaymentMode.PAYPAL, -10.0      | Call `checkout` | Print: `"Processing PayPal payment of $-10.00"`      | Optional: Could extend to validation for negative amounts |
-| TC06         | Checkout Zero Amount          | PaymentProcessor available | PaymentMode.CREDITCARD, 0.0    | Call `checkout` | Print: `"Processing Credit Card payment of $0.00"`   | Edge case: zero payment                                   |
-
----
+  Scenario: Unknown payment mode raises exception
+    Given a payment amount of 50
+    When I checkout using an unsupported mode
+    Then an error "Invalid payment mode selected" should be raised
 
 
