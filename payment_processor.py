@@ -22,8 +22,9 @@ class PaymentProcessor:
         # Switch-case style using match-case
         match mode:
             case PaymentMode.PAYPAL:
-                return f"Processing PayPal payment of ${amount:.2f}"
+                method = "PayPal"
             case PaymentMode.GOOGLEPAY:
-                return f"Processing GooglePay payment of ${amount:.2f}"
+                method = "GooglePay"
             case PaymentMode.CREDITCARD:
-                return f"Processing Credit Card payment of ${amount:.2f}"
+                method = "Credit Card"
+            return f"Processing {method} payment of ${amount:.2f}"
