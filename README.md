@@ -226,34 +226,3 @@ public class CheckoutDemo {
 }
 
 ```
-
-
-Feature: Payment Processing
-
-  Scenario: PayPal payment
-    Given a payment amount of 100.0
-    When I select PayPal as the payment mode
-    Then the system should return "Processing PayPal payment of $100.00"
-
-  Scenario: GooglePay payment
-    Given a payment amount of 200.5
-    When I select GooglePay as the payment mode
-    Then the system should return "Processing GooglePay payment of $200.50"
-
-  Scenario: CreditCard payment
-    Given a payment amount of 300
-    When I select CreditCard as the payment mode
-    Then the system should return "Processing Credit Card payment of $300.00"
-
-  Scenario: Negative payment amount
-    Given a payment amount of -50
-    When I select PayPal as the payment mode
-    Then the system should raise an error "Amount must be non-negative!"
-
-  Scenario: Invalid payment mode
-    Given a payment amount of 150.0
-    When I select an invalid payment mode
-    Then the system should raise an error "Invalid payment mode selected!"
-
-
-
